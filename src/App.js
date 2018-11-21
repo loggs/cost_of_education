@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { ResponsiveLine } from "@nivo/line";
 
-const compound_interest = years => {
-  return [...Array(years).keys()].map(year => {
+const compound_interest = (years, start, interest) => {
+  return [...Array(years + 1).keys()].map(year => {
     return {
       x: year,
-      y: Math.round(100 * Math.pow(1.06, year) * 100) / 100
+      y: Math.round(start * Math.pow(interest, year) * 100) / 100
     };
   });
 };
@@ -20,7 +20,8 @@ class App extends Component {
   };
 
   render() {
-    console.log(compound_interest(this.state.years));
+    console.log(compound_interest(this.state.years, 100, 1.06));
+    console.log(compound_interest(this.state.years, 50, 1.1));
     return (
       <div>
         <input
@@ -32,8 +33,14 @@ class App extends Component {
           <ResponsiveLine
             data={[
               {
-                id: "Compounding Interest",
-                data: compound_interest(this.state.years)
+                id: "School",
+                color: "hsl(187, 70%, 50%)",
+                data: compound_interest(this.state.years, 100, 1.06)
+              },
+              {
+                id: "No School",
+                color: "hsl(277, 70%, 50%)",
+                data: compound_interest(this.state.years, 50, 1.1)
               }
             ]}
             margin={{
@@ -44,13 +51,11 @@ class App extends Component {
             }}
             xScale={{
               type: "linear",
-              stacked: true,
               min: "auto",
               max: "auto"
             }}
             yScale={{
               type: "linear",
-              stacked: true,
               min: "auto",
               max: "auto"
             }}
@@ -62,7 +67,7 @@ class App extends Component {
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
-              legend: "Time",
+              legend: "Years",
               legendOffset: 36,
               legendPosition: "center"
             }}
@@ -71,7 +76,7 @@ class App extends Component {
               tickSize: 5,
               tickPadding: 5,
               tickRotation: 0,
-              legend: "count",
+              legend: "Dollars",
               legendOffset: -40,
               legendPosition: "center"
             }}
@@ -79,7 +84,6 @@ class App extends Component {
             dotColor="inherit:darker(0.3)"
             dotBorderWidth={2}
             dotBorderColor="#ffffff"
-            enableDotLabel={true}
             dotLabel="y"
             dotLabelYOffset={-12}
             animate={true}
