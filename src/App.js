@@ -1,46 +1,96 @@
 import React, { Component } from "react";
 import { ResponsiveLine } from "@nivo/line";
+import "./App.css";
 
-const compound_interest = (years, start, interest) => {
-  return [...Array(years + 1).keys()].map(year => {
+const compound_interest = (years, start, interest, delay = 0) => {
+  return [...Array(years + 1 - delay).keys()].map(year => {
     return {
-      x: year,
+      x: year + delay,
       y: Math.round(start * Math.pow(interest, year) * 100) / 100
     };
   });
 };
 
+const to_number = (stringy, number_func) => {
+  return stringy ? number_func(stringy) : 0;
+};
+
 class App extends Component {
   state = {
-    years: 10
+    years: 10,
+    delay: 3,
+    startingSalarySchool: 50000,
+    startingSalaryNoSchool: 30000
   };
 
   handleYearInput = event => {
-    this.setState({ years: parseInt(event.target.value) });
+    this.setState({
+      years: to_number(event.target.value, parseInt)
+    });
+  };
+
+  handleDelayInput = event => {
+    this.setState({
+      delay: to_number(event.target.value, parseFloat)
+    });
+  };
+
+  handleStartingSalarySchool = event => {
+    this.setState({
+      startingSalarySchool: to_number(event.target.value, parseFloat)
+    });
+  };
+
+  handleStartingSalaryNoSchool = event => {
+    this.setState({
+      startingSalaryNoSchool: to_number(event.target.value, parseFloat)
+    });
   };
 
   render() {
-    console.log(compound_interest(this.state.years, 100, 1.06));
-    console.log(compound_interest(this.state.years, 50, 1.1));
+    const {
+      years,
+      delay,
+      startingSalarySchool,
+      startingSalaryNoSchool
+    } = this.state;
     return (
       <div>
-        <input
-          type="number"
-          onChange={this.handleYearInput}
-          value={this.state.years}
-        />
+        <div id="inputs">
+          <p> Number of Years </p>
+          <input type="number" onChange={this.handleYearInput} value={years} />
+          <p> Number of Years of Schooling </p>
+          <input type="number" onChange={this.handleDelayInput} value={delay} />
+          <p> Starting Salary After School </p>
+          <input
+            type="number"
+            onChange={this.handleStartingSalarySchool}
+            value={startingSalarySchool}
+          />
+          <p> Starting Salary Without School </p>
+          <input
+            type="number"
+            onChange={this.handleStartingSalaryNoSchool}
+            value={startingSalaryNoSchool}
+          />
+        </div>
         <div style={{ height: 500, width: 600 }}>
           <ResponsiveLine
             data={[
               {
                 id: "School",
                 color: "hsl(187, 70%, 50%)",
-                data: compound_interest(this.state.years, 100, 1.06)
+                data: compound_interest(
+                  years,
+                  startingSalarySchool,
+                  1.06,
+                  delay
+                )
               },
               {
                 id: "No School",
                 color: "hsl(277, 70%, 50%)",
-                data: compound_interest(this.state.years, 50, 1.1)
+                data: compound_interest(years, startingSalaryNoSchool, 1.1)
               }
             ]}
             margin={{
