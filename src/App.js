@@ -56,25 +56,39 @@ class App extends Component {
     } = this.state;
     return (
       <div>
-        <div id="inputs">
-          <p> Number of Years </p>
-          <input type="number" onChange={this.handleYearInput} value={years} />
-          <p> Number of Years of Schooling </p>
-          <input type="number" onChange={this.handleDelayInput} value={delay} />
-          <p> Starting Salary After School </p>
-          <input
-            type="number"
-            onChange={this.handleStartingSalarySchool}
-            value={startingSalarySchool}
-          />
-          <p> Starting Salary Without School </p>
-          <input
-            type="number"
-            onChange={this.handleStartingSalaryNoSchool}
-            value={startingSalaryNoSchool}
-          />
+        <div className="inputs">
+          <div id="inputs-school">
+            <p> Number of Years </p>
+            <input
+              type="number"
+              onChange={this.handleYearInput}
+              value={years}
+            />
+            <h3> With School </h3>
+            <p> Years of Schooling </p>
+            <input
+              type="number"
+              onChange={this.handleDelayInput}
+              value={delay}
+            />
+            <p> Starting Salary </p>
+            <input
+              type="number"
+              onChange={this.handleStartingSalarySchool}
+              value={startingSalarySchool}
+            />
+          </div>
+          <div id="inputs-no-school">
+            <h3> With No School </h3>
+            <p> Starting Salary </p>
+            <input
+              type="number"
+              onChange={this.handleStartingSalaryNoSchool}
+              value={startingSalaryNoSchool}
+            />
+          </div>
         </div>
-        <div style={{ height: 500, width: 600 }}>
+        <div style={{ height: 600, width: 650 }} id="graph">
           <ResponsiveLine
             data={[
               {
