@@ -20,7 +20,11 @@ class App extends Component {
     years: 10,
     delay: 3,
     startingSalarySchool: 50000,
-    startingSalaryNoSchool: 30000
+    incomeGrowthSchool: 1.06,
+    savingsRateSchool: 0.5,
+    startingSalaryNoSchool: 30000,
+    incomeGrowthNoSchool: 1.06,
+    savingsRateNoSchool: 0.5
   };
 
   handleYearInput = event => {
@@ -29,6 +33,7 @@ class App extends Component {
     });
   };
 
+  // With college inputs
   handleDelayInput = event => {
     this.setState({
       delay: to_number(event.target.value, parseFloat)
@@ -41,9 +46,34 @@ class App extends Component {
     });
   };
 
+  handleIncomeGrowthSchool = event => {
+    this.setState({
+      incomeGrowthSchool: to_number(event.target.value, parseFloat)
+    });
+  };
+
+  handleSavingsRateSchool = event => {
+    this.setState({
+      savingsRateSchool: to_number(event.target.value, parseFloat)
+    });
+  };
+
+  // No college inputs
   handleStartingSalaryNoSchool = event => {
     this.setState({
       startingSalaryNoSchool: to_number(event.target.value, parseFloat)
+    });
+  };
+
+  handleIncomeGrowthNoSchool = event => {
+    this.setState({
+      incomeGrowthNoSchool: to_number(event.target.value, parseFloat)
+    });
+  };
+
+  handleSavingsRateNoSchool = event => {
+    this.setState({
+      savingsRateNoSchool: to_number(event.target.value, parseFloat)
     });
   };
 
@@ -52,7 +82,11 @@ class App extends Component {
       years,
       delay,
       startingSalarySchool,
-      startingSalaryNoSchool
+      startingSalaryNoSchool,
+      incomeGrowthNoSchool,
+      savingsRateNoSchool,
+      incomeGrowthSchool,
+      savingsRateSchool
     } = this.state;
     return (
       <div>
@@ -64,7 +98,7 @@ class App extends Component {
               onChange={this.handleYearInput}
               value={years}
             />
-            <h3> With School </h3>
+            <h3> With College </h3>
             <p> Years of Schooling </p>
             <input
               type="number"
@@ -77,9 +111,21 @@ class App extends Component {
               onChange={this.handleStartingSalarySchool}
               value={startingSalarySchool}
             />
+            <p> Salary Growth </p>
+            <input
+              type="number"
+              onChange={this.handleIncomeGrowthSchool}
+              value={incomeGrowthSchool}
+            />
+            <p> Savings Rate </p>
+            <input
+              type="number"
+              onChange={this.handleSavingsRateSchool}
+              value={savingsRateSchool}
+            />
           </div>
           <div id="inputs-no-school">
-            <h3> With No School </h3>
+            <h3> With No College </h3>
             <p> Starting Salary </p>
             <input
               type="number"
@@ -87,6 +133,18 @@ class App extends Component {
               value={startingSalaryNoSchool}
             />
           </div>
+          <p> Salary Growth </p>
+          <input
+            type="number"
+            onChange={this.handleIncomeGrowthNoSchool}
+            value={incomeGrowthNoSchool}
+          />
+          <p> Savings Rate </p>
+          <input
+            type="number"
+            onChange={this.handleSavingsRateNoSchool}
+            value={savingsRateNoSchool}
+          />
         </div>
         <div style={{ height: 600, width: 650 }} id="graph">
           <ResponsiveLine
